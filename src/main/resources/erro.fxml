@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="ErroController" 
+           style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);"
+           alignment="CENTER">
+    
+    <!-- CARD PRINCIPAL DE ERRO -->
+    <VBox alignment="CENTER" 
+          spacing="35" 
+          style="-fx-background-color: white; -fx-background-radius: 28; -fx-padding: 50; -fx-effect: dropshadow(gaussian, black, 40, 0.35, 0, 15); -fx-max-width: 850; -fx-min-width: 750;">
+        
+        <!-- Imagens de erro em grade 2x2 -->
+        <GridPane hgap="22" vgap="22" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" />
+                <ColumnConstraints halignment="CENTER" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints valignment="CENTER" />
+                <RowConstraints valignment="CENTER" />
+            </rowConstraints>
+            <ImageView fitWidth="200" fitHeight="200" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <image>
+                    <Image url="@/static/images/coringa_do_pi.png" />
+                </image>
+            </ImageView>
+            <ImageView fitWidth="200" fitHeight="200" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <image>
+                    <Image url="@/static/images/emoji_do_pi.png" />
+                </image>
+            </ImageView>
+            <ImageView fitWidth="200" fitHeight="200" preserveRatio="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <image>
+                    <Image url="@/static/images/kratos_chorando.png" />
+                </image>
+            </ImageView>
+            <ImageView fitWidth="200" fitHeight="200" preserveRatio="true" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <image>
+                    <Image url="@/static/images/luva_de_pedreiro.png" />
+                </image>
+            </ImageView>
+        </GridPane>
+        
+        <!-- Título VOCÊ ERROU! -->
+        <Label text="VOCÊ ERROU!" 
+               style="-fx-font-size: 42px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #dc3545; -fx-effect: dropshadow(gaussian, #dc3545, 10, 0.3, 0, 3);"/>
+        
+        <!-- Card de Pontuação Final -->
+        <HBox alignment="CENTER" spacing="15" 
+              style="-fx-background-color: #e8eaf6; -fx-background-radius: 16; -fx-padding: 20 35; -fx-border-color: #667eea; -fx-border-width: 2.5; -fx-border-radius: 16;">
+            <Label text="🎯" style="-fx-font-size: 28px;"/>
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Sua Pontuação Final" 
+                       style="-fx-font-size: 15px; -fx-font-family: 'QuicksandMedium'; -fx-text-fill: #667eea;"/>
+                <Label fx:id="pontuacaoFinalLabel" 
+                       text="0 pontos" 
+                       style="-fx-font-size: 32px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea;"/>
+            </VBox>
+        </HBox>
+        
+        <!-- Separador -->
+        <Region prefHeight="10"/>
+        
+        <!-- Botões de Ação -->
+        <HBox alignment="CENTER" spacing="20">
+            <!-- Botão Jogar Novamente -->
+            <Button text="🔄 Jogar Novamente" 
+                    onAction="#jogarNovamente"
+                    style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 14; -fx-padding: 16 38; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #667eea, 14, 0.4, 0, 5); -fx-border-width: 0;"/>
+            
+            <!-- Botão Voltar ao Menu -->
+            <Button text="🏠 Menu Principal" 
+                    onAction="#voltarMenu"
+                    style="-fx-background-color: #f7fafc; -fx-text-fill: #667eea; -fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 14; -fx-padding: 16 38; -fx-cursor: hand; -fx-border-color: #667eea; -fx-border-width: 3; -fx-border-radius: 14;"/>
+        </HBox>
+        
+        <!-- Mensagem de encorajamento -->
+        <Label text="💪 A prática leva à perfeição!" 
+               style="-fx-font-size: 16px; -fx-font-family: 'QuicksandMedium'; -fx-text-fill: #667eea; -fx-opacity: 0.8;"/>
+        
+    </VBox>
+    
+</StackPane>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="Controller" 
+           style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);"
+           alignment="CENTER">
+    
+    <!-- CARD PRINCIPAL DO QUIZ -->
+    <VBox alignment="CENTER" 
+          spacing="20" 
+          style="-fx-background-color: white; -fx-background-radius: 28; -fx-padding: 45; -fx-effect: dropshadow(gaussian, black, 35, 0.3, 0, 12); -fx-max-width: 950; -fx-min-width: 850;">
+        
+        <!-- Container Horizontal: Sonic + Conteúdo -->
+        <HBox alignment="CENTER" spacing="35">
+            
+            <!-- SONIC À ESQUERDA DENTRO DO CARD -->
+            <VBox alignment="CENTER" spacing="12">
+                <ImageView fitWidth="400" fitHeight="400" preserveRatio="true" 
+                           style="-fx-effect: dropshadow(gaussian, #667eea, 15, 0.4, 0, 3);">
+                    <image>
+                        <Image url="@/static/images/sonic_ia.png" />
+                    </image>
+                </ImageView>
+                <!-- Balão de fala do Sonic -->
+                <Label text="Vamos lá!" 
+                       style="-fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #2d3748; -fx-background-color: #ffd93d; -fx-padding: 10 22; -fx-background-radius: 18; -fx-border-color: #667eea; -fx-border-width: 2.5; -fx-border-radius: 18; -fx-effect: dropshadow(gaussian, #ffd93d, 8, 0.3, 0, 2);"/>
+            </VBox>
+            
+            <!-- ÁREA DO QUIZ À DIREITA -->
+            <VBox alignment="CENTER" spacing="22">
+                
+                <!-- Título da pergunta -->
+                <Label fx:id="perguntaLabel" 
+                       wrapText="true" 
+                       textAlignment="CENTER"
+                       maxWidth="520"
+                       style="-fx-font-size: 19px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #2d3748; -fx-padding: 22; -fx-background-color: #f7fafc; -fx-background-radius: 16; -fx-border-color: #e2e8f0; -fx-border-width: 2.5; -fx-border-radius: 16; -fx-wrap-text: true;"/>
+                
+                <!-- Instrução -->
+                <Label text="Escolha a alternativa correta:" 
+                       style="-fx-font-size: 14px; -fx-text-fill: #667eea; -fx-font-family: 'QuicksandSemiBold';"/>
+                
+                <!-- Grid de opções 2x2 -->
+                <GridPane hgap="12" vgap="12" alignment="CENTER">
+                    <!-- OPÇÃO A -->
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
+                        <Label text="A" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                        <Button fx:id="opcaoA" 
+                                onAction="#responder" 
+                                wrapText="true"
+                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
+                    </VBox>
+                    
+                    <!-- OPÇÃO B -->
+                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
+                        <Label text="B" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                        <Button fx:id="opcaoB" 
+                                onAction="#responder" 
+                                wrapText="true"
+                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
+                    </VBox>
+                    
+                    <!-- OPÇÃO C -->
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
+                        <Label text="C" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                        <Button fx:id="opcaoC" 
+                                onAction="#responder" 
+                                wrapText="true"
+                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
+                    </VBox>
+                    
+                    <!-- OPÇÃO D -->
+                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
+                        <Label text="D" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                        <Button fx:id="opcaoD" 
+                                onAction="#responder" 
+                                wrapText="true"
+                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
+                    </VBox>
+                </GridPane>
+                
+            </VBox>
+            
+        </HBox>
+        
+        <!-- Separador -->
+        <Region prefHeight="5"/>
+        
+        <!-- Pontuação -->
+        <HBox alignment="CENTER" spacing="10">
+            <Label text="🏆" style="-fx-font-size: 22px;"/>
+            <Label fx:id="pontuacaoLabel" 
+                   text="Pontuação: 0" 
+                   style="-fx-font-size: 18px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 10 26; -fx-background-radius: 16; -fx-border-color: #c5cae9; -fx-border-width: 2; -fx-border-radius: 16;"/>
+        </HBox>
+        
+        <!-- Botão voltar -->
+        <Button fx:id="voltarBtn" 
+                text="← Voltar ao Início" 
+                visible="false" 
+                managed="false" 
+                onAction="#voltarAoInicio"
+                style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 12; -fx-padding: 12 32; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #667eea, 12, 0.35, 0, 4); -fx-border-width: 0;"/>
+        
+    </VBox>
+    
+</StackPane>
