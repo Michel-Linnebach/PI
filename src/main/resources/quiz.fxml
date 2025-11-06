@@ -46,44 +46,96 @@
                 <!-- Grid de opções 2x2 -->
                 <GridPane hgap="12" vgap="12" alignment="CENTER">
                     <!-- OPÇÃO A -->
-                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" 
-                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
-                        <Label text="A" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
-                        <Button fx:id="opcaoA" 
-                                onAction="#responder" 
-                                wrapText="true"
-                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
-                    </VBox>
+                <Button fx:id="opcaoA" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    onAction="#responder" 
+                    onMouseEntered="#buttonHoverIn" 
+                    onMouseExited="#buttonHoverOut"
+                    style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; 
+                       -fx-border-color: #dee2e6; -fx-border-width: 2.5; 
+                       -fx-border-radius: 14; -fx-padding: 12; 
+                       -fx-pref-width: 230; -fx-pref-height: 105; 
+                       -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2);
+                       -fx-cursor: hand;">
+                        <graphic>
+                            <VBox spacing="8">
+                                <Label text="A" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; 
+                                                     -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; 
+                                                     -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                                <Label fx:id="textoA" wrapText="true" 
+                                       style="-fx-text-fill: #495057; -fx-font-size: 13px; 
+                                              -fx-font-family: 'QuicksandMedium'; -fx-alignment: top-left;"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
                     
                     <!-- OPÇÃO B -->
-                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" 
-                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
-                        <Label text="B" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
-                        <Button fx:id="opcaoB" 
-                                onAction="#responder" 
-                                wrapText="true"
-                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
-                    </VBox>
+                    <Button fx:id="opcaoB" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                            onAction="#responder" 
+                            onMouseEntered="#buttonHoverIn" 
+                            onMouseExited="#buttonHoverOut"
+                            style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; 
+                                   -fx-border-color: #dee2e6; -fx-border-width: 2.5; 
+                                   -fx-border-radius: 14; -fx-padding: 12; 
+                                   -fx-pref-width: 230; -fx-pref-height: 105; 
+                                   -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2);
+                                   -fx-cursor: hand;">
+                        <graphic>
+                            <VBox spacing="8">
+                                <Label text="B" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; 
+                                                     -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; 
+                                                     -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                                <Label fx:id="textoB" wrapText="true" 
+                                       style="-fx-text-fill: #495057; -fx-font-size: 13px; 
+                                              -fx-font-family: 'QuicksandMedium'; -fx-alignment: top-left;"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
                     
                     <!-- OPÇÃO C -->
-                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" 
-                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
-                        <Label text="C" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
-                        <Button fx:id="opcaoC" 
-                                onAction="#responder" 
-                                wrapText="true"
-                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
-                    </VBox>
+                    <Button fx:id="opcaoC" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                            onAction="#responder" 
+                            onMouseEntered="#buttonHoverIn" 
+                            onMouseExited="#buttonHoverOut"
+                            style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; 
+                                   -fx-border-color: #dee2e6; -fx-border-width: 2.5; 
+                                   -fx-border-radius: 14; -fx-padding: 12; 
+                                   -fx-pref-width: 230; -fx-pref-height: 105; 
+                                   -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2);
+                                   -fx-cursor: hand;">
+                        <graphic>
+                            <VBox spacing="8">
+                                <Label text="C" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; 
+                                                     -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; 
+                                                     -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                                <Label fx:id="textoC" wrapText="true" 
+                                       style="-fx-text-fill: #495057; -fx-font-size: 13px; 
+                                              -fx-font-family: 'QuicksandMedium'; -fx-alignment: top-left;"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
                     
                     <!-- OPÇÃO D -->
-                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" 
-                          style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; -fx-border-color: #dee2e6; -fx-border-width: 2.5; -fx-border-radius: 14; -fx-padding: 12; -fx-spacing: 8; -fx-pref-width: 230; -fx-pref-height: 105; -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2); -fx-cursor: hand;">
-                        <Label text="D" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
-                        <Button fx:id="opcaoD" 
-                                onAction="#responder" 
-                                wrapText="true"
-                                style="-fx-background-color: transparent; -fx-text-fill: #495057; -fx-font-size: 13px; -fx-font-family: 'QuicksandMedium'; -fx-padding: 5; -fx-cursor: hand; -fx-alignment: top-left; -fx-border-width: 0; -fx-wrap-text: true; -fx-pref-width: 205; -fx-max-width: 205; -fx-pref-height: 68;"/>
-                    </VBox>
+                    <Button fx:id="opcaoD" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                            onAction="#responder" 
+                            onMouseEntered="#buttonHoverIn" 
+                            onMouseExited="#buttonHoverOut"
+                            style="-fx-background-color: #f8f9fa; -fx-background-radius: 14; 
+                                   -fx-border-color: #dee2e6; -fx-border-width: 2.5; 
+                                   -fx-border-radius: 14; -fx-padding: 12; 
+                                   -fx-pref-width: 230; -fx-pref-height: 105; 
+                                   -fx-effect: dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2);
+                                   -fx-cursor: hand;">
+                        <graphic>
+                            <VBox spacing="8">
+                                <Label text="D" style="-fx-font-size: 13px; -fx-font-family: 'QuicksandBold'; 
+                                                     -fx-text-fill: #667eea; -fx-background-color: #e8eaf6; 
+                                                     -fx-padding: 4 11; -fx-background-radius: 9; -fx-min-width: 34;"/>
+                                <Label fx:id="textoD" wrapText="true" 
+                                       style="-fx-text-fill: #495057; -fx-font-size: 13px; 
+                                              -fx-font-family: 'QuicksandMedium'; -fx-alignment: top-left;"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
                 </GridPane>
                 
             </VBox>

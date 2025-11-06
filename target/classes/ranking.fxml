@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="RankingController"
+           style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);"
+           alignment="CENTER">
+
+    <!-- CARD PRINCIPAL -->
+    <VBox alignment="CENTER" spacing="20"
+          style="-fx-background-color: white; -fx-background-radius: 28; -fx-padding: 35; 
+                 -fx-effect: dropshadow(gaussian, black, 35, 0.3, 0, 12); 
+                 -fx-max-width: 950; -fx-min-width: 850; -fx-max-height: 750;">
+        
+        <!-- Título com Imagens -->
+        <HBox spacing="20" alignment="CENTER">
+            <!-- Francesco à esquerda -->
+            <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                <image>
+                    <Image url="@/static/images/Francesco_bernoulli.png"/>
+                </image>
+            </ImageView>
+            
+            <!-- Texto no meio -->
+            <Label text="🏆 SUPER RANKING" 
+                   style="-fx-font-size: 34px; -fx-font-family: 'QuicksandBold'; 
+                          -fx-text-fill: #2d3748; -fx-effect: dropshadow(gaussian, #667eea, 8, 0.4, 0, 2);"/>
+            
+            <!-- Elmo Satan à direita -->
+            <ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+                <image>
+                    <Image url="@/static/images/elmo_satan.gif"/>
+                </image>
+            </ImageView>
+        </HBox>
+        
+        <!-- Separador -->
+        <Separator style="-fx-background-color: #e2e8f0; -fx-pref-width: 800;"/>
+        
+        <!-- ScrollPane para a lista de rankings -->
+        <ScrollPane fitToWidth="true" 
+                    prefHeight="400" 
+                    maxHeight="400"
+                    style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-width: 0;">
+            <VBox fx:id="rankingList" spacing="10" alignment="TOP_CENTER" style="-fx-padding: 10;">
+                <!-- Os itens serão adicionados dinamicamente -->
+            </VBox>
+        </ScrollPane>
+        
+        <!-- Controles de Paginação -->
+        <HBox alignment="CENTER" spacing="15" style="-fx-padding: 10 0 5 0;">
+            <!-- Botão Anterior -->
+            <Button fx:id="btnAnterior" 
+                    text="◀ Anterior" 
+                    onAction="#paginaAnterior"
+                    style="-fx-background-color: #e8eaf6; -fx-text-fill: #667eea; 
+                           -fx-font-size: 14px; -fx-font-family: 'QuicksandBold'; 
+                           -fx-background-radius: 10; -fx-padding: 8 20; 
+                           -fx-cursor: hand; -fx-border-color: #667eea; 
+                           -fx-border-width: 2; -fx-border-radius: 10;"/>
+            
+            <!-- Info da Página -->
+            <Label fx:id="lblPaginaInfo" 
+                   text="Página 1 de 2" 
+                   style="-fx-font-size: 15px; -fx-font-family: 'QuicksandSemiBold'; 
+                          -fx-text-fill: #667eea; -fx-min-width: 120; -fx-alignment: center;"/>
+            
+            <!-- Botão Próximo -->
+            <Button fx:id="btnProximo" 
+                    text="Próximo ▶" 
+                    onAction="#proximaPagina"
+                    style="-fx-background-color: #667eea; -fx-text-fill: white; 
+                           -fx-font-size: 14px; -fx-font-family: 'QuicksandBold'; 
+                           -fx-background-radius: 10; -fx-padding: 8 20; 
+                           -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #667eea, 8, 0.3, 0, 2);"/>
+        </HBox>
+        
+        <!-- Separador -->
+        <Separator style="-fx-background-color: #e2e8f0; -fx-pref-width: 800;"/>
+        
+        <!-- Botão Voltar -->
+        <Button text="🏠 Voltar ao Início" 
+                onAction="#voltarAoInicio"
+                onMouseEntered="#buttonHoverIn"
+                onMouseExited="#buttonHoverOut"
+                style="-fx-background-color: #667eea; -fx-text-fill: white; 
+                       -fx-font-size: 15px; -fx-font-family: 'QuicksandBold'; 
+                       -fx-background-radius: 12; -fx-padding: 12 32; 
+                       -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #667eea, 12, 0.35, 0, 4); 
+                       -fx-border-width: 0;"/>
+    </VBox>
+</StackPane>

@@ -10,13 +10,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/login.fxml")));
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Bem-vindo ao Quiz");
-        primaryStage.setFullScreen(true); // Abre em tela cheia
-        primaryStage.show();
+    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/entrada.fxml")));
+    Scene scene = new Scene(root);
+    scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+    primaryStage.setScene(scene);
+    primaryStage.setTitle("Bem-vindo ao Super Quiz");
+    primaryStage.setFullScreen(true); // Abre em tela cheia
+    primaryStage.show();
     }
 
     public static void main(String[] args) {

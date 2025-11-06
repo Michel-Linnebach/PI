@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -17,6 +18,10 @@ public class Controller {
     @FXML private Button opcaoB;
     @FXML private Button opcaoC;
     @FXML private Button opcaoD;
+    @FXML private Label textoA;
+    @FXML private Label textoB;
+    @FXML private Label textoC;
+    @FXML private Label textoD;
     @FXML private Label pontuacaoLabel;
     @FXML private Button voltarBtn;
 
@@ -24,6 +29,28 @@ public class Controller {
     private Pergunta perguntaAtual;
     private String nomeUsuario;
     private String tema;
+
+    @FXML
+    public void buttonHoverIn(MouseEvent event) {
+        if (event.getSource() instanceof Button) {
+            Button button = (Button) event.getSource();
+            button.setStyle(button.getStyle().replace("#f8f9fa", "#ffffff")
+                          .replace("dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2)", 
+                                 "dropshadow(gaussian, #667eea, 12, 0.4, 0, 4)")
+                          .replace("#dee2e6", "#667eea"));
+        }
+    }
+
+    @FXML
+    public void buttonHoverOut(MouseEvent event) {
+        if (event.getSource() instanceof Button) {
+            Button button = (Button) event.getSource();
+            button.setStyle(button.getStyle().replace("#ffffff", "#f8f9fa")
+                          .replace("dropshadow(gaussian, #667eea, 12, 0.4, 0, 4)", 
+                                 "dropshadow(gaussian, #adb5bd, 5, 0.12, 0, 2)")
+                          .replace("#667eea", "#dee2e6"));
+        }
+    }
 
     public void iniciarQuiz(String nomeUsuario, String tema) {
         this.nomeUsuario = nomeUsuario;
@@ -53,10 +80,10 @@ public class Controller {
             perguntaLabel.setText(perguntaAtual.getPergunta());
             String[] opcoes = perguntaAtual.getOpcoes();
             
-            opcaoA.setText(opcoes[0]);
-            opcaoB.setText(opcoes[1]);
-            opcaoC.setText(opcoes[2]);
-            opcaoD.setText(opcoes[3]);
+            textoA.setText(opcoes[0]);
+            textoB.setText(opcoes[1]);
+            textoC.setText(opcoes[2]);
+            textoD.setText(opcoes[3]);
             
             habilitarOpcoes();
         } catch (Exception e) {
@@ -69,25 +96,20 @@ public class Controller {
     @FXML
     private void responder(ActionEvent event) {
         Button clicado = (Button) event.getSource();
-        //String letra = clicado.getText().substring(0, 1).toUpperCase();
+        String letra = "";
+        if (clicado == opcaoA) letra = "A";
+        else if (clicado == opcaoB) letra = "B";
+        else if (clicado == opcaoC) letra = "C";
+        else if (clicado == opcaoD) letra = "D";
 
-        VBox vboxPai = (VBox) clicado.getParent();
-
-        Label letraLabel = (Label) vboxPai.getChildren().get(0);
-        String letra = letraLabel.getText().trim().toUpperCase();
-
-        // Desabilitar todos os botões temporariamente
         desabilitarOpcoes();
-
 
         boolean correta = quiz.verificarResposta(perguntaAtual, letra);
         System.out.println("Letra selecionada: '" + letra + "' | Correta: " + correta);
         
         if (correta) {
-            //  RESPOSTA CORRETA - Carregar próxima pergunta
             pontuacaoLabel.setText("Pontuação: " + quiz.getPontos());
             
-            // Aguardar 1 segundo antes de carregar próxima pergunta
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> {
                 carregarPergunta();
@@ -95,24 +117,18 @@ public class Controller {
             pause.play();
             
         } else {
-            //  RESPOSTA ERRADA - Redirecionar para tela de erro
             redirecionarParaTelaErro();
         }
     }
     
-    /**
-     * Redireciona para a tela de erro quando o jogador erra
-     */
     private void redirecionarParaTelaErro() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/erro.fxml"));
             Parent root = loader.load();
 
-            // Passar dados para o ErroController
             ErroController erroController = loader.getController();
             erroController.inicializarErro(quiz.getPontos(), nomeUsuario, tema);
 
-            // Aplicar CSS
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
@@ -124,7 +140,6 @@ public class Controller {
             e.printStackTrace();
             System.out.println("Erro ao carregar tela de erro: " + e.getMessage());
             
-            // Fallback: mostrar mensagem no próprio quiz
             perguntaLabel.setText(" Errou! Pontuação final: " + quiz.getPontos());
             if (voltarBtn != null) {
                 voltarBtn.setVisible(true);

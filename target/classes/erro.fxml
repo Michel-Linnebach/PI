@@ -70,12 +70,23 @@
             <!-- Botão Jogar Novamente -->
             <Button text="🔄 Jogar Novamente" 
                     onAction="#jogarNovamente"
+                    onMouseEntered="#buttonHoverIn"
+                    onMouseExited="#buttonHoverOut"
                     style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 14; -fx-padding: 16 38; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #667eea, 14, 0.4, 0, 5); -fx-border-width: 0;"/>
             
             <!-- Botão Voltar ao Menu -->
             <Button text="🏠 Menu Principal" 
                     onAction="#voltarMenu"
+                    onMouseEntered="#buttonHoverIn"
+                    onMouseExited="#buttonHoverOut"
                     style="-fx-background-color: #f7fafc; -fx-text-fill: #667eea; -fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 14; -fx-padding: 16 38; -fx-cursor: hand; -fx-border-color: #667eea; -fx-border-width: 3; -fx-border-radius: 14;"/>
+            
+            <!-- Botão Ver Ranking -->
+            <Button text="🏆 Ver Ranking" 
+                    onAction="#verRanking"
+                    onMouseEntered="#buttonHoverIn"
+                    onMouseExited="#buttonHoverOut"
+                    style="-fx-background-color: #ffd93d; -fx-text-fill: #2d3748; -fx-font-size: 17px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 14; -fx-padding: 16 38; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #ffd93d, 14, 0.4, 0, 5); -fx-border-width: 0;"/>
         </HBox>
         
         <!-- Mensagem de encorajamento -->

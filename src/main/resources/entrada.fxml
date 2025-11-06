@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="EntradaController"
+      alignment="CENTER" spacing="40" prefWidth="700" prefHeight="600"
+      style="-fx-background-color: linear-gradient(to bottom, #ffecd2 0%, #fcb69f 100%);">
+    <Label text="Sejam bem-vindos ao Super Quiz!"
+           style="-fx-font-size: 32px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: #d7263d; -fx-padding: 60 0 0 0; -fx-font-weight: bold;"/>
+
+    <ImageView fitWidth="550" fitHeight="550" preserveRatio="true">
+        <image>
+            <Image url="@/static/images/relampago_marquinhos.gif" />
+        </image>
+    </ImageView>
+
+    <Button text="Iniciar Super Jogo"
+            fx:id="iniciarBtn"
+            onAction="#irParaLogin"
+            style="-fx-background-color: #d7263d; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-family: 'QuicksandBold'; -fx-background-radius: 18; -fx-padding: 16 40; -fx-effect: dropshadow(gaussian, #d7263d, 8, 0.3, 0, 2);"/>
+</VBox>

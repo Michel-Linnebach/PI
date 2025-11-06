@@ -29,6 +29,11 @@ public class loginController {
             nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
+        if (nome.length() < 3) {
+            mensagemLabel.setText("O nome deve ter pelo menos 3 caracteres.");
+            nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
+            return;
+        }
         if (!nome.matches(REGEX_VALIDO)) {
             mensagemLabel.setText("Nome inválido: apenas letras e espaços são permitidos.");
             nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");

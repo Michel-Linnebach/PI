@@ -4,18 +4,46 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox spacing="18" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="loginController" prefWidth="520" prefHeight="600" styleClass="root">
+<VBox spacing="25" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="loginController"
+      prefWidth="700" prefHeight="600" styleClass="root">
+    
     <ImageView fitWidth="320" fitHeight="320" preserveRatio="true">
         <image>
             <Image url="@/static/images/Buns.png" />
         </image>
     </ImageView>
-    <Label text="Bem-vindo ao Super Quiz!" styleClass="titulo"/>
-    <Label text="Digite seu super nome:" styleClass="label"/>
-    <TextField fx:id="nomeField" promptText="Seu nome aqui" styleClass="text-field"/>
-    <Label text="Digite o super tema do quiz:" styleClass="label"/>
-    <TextField fx:id="temaField" promptText="ex: história, ciência, esportes" styleClass="text-field"/>
-    <Button text="Iniciar Super Quiz" onAction="#iniciarQuiz" styleClass="button"/>
-    <Label fx:id="mensagemLabel" style="-fx-text-fill: #ffbaba; -fx-font-size: 14px;"/>
+
+    <Label text="Bem-vindo ao Super Quiz!" 
+           style="-fx-font-size: 32px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: white;"/>
+
+    <VBox spacing="12" alignment="CENTER" maxWidth="400">
+        <Label text="Digite seu super nome:" 
+               style="-fx-font-size: 18px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: white;"/>
+        <TextField fx:id="nomeField" promptText="Seu nome aqui" 
+                  style="-fx-font-size: 16px; -fx-background-radius: 15; -fx-padding: 12; -fx-pref-width: 350;"/>
+
+        <VBox.margin>
+            <Insets top="10"/>
+        </VBox.margin>
+    </VBox>
+
+    <VBox spacing="12" alignment="CENTER" maxWidth="400">
+        <Label text="Digite o super tema do quiz:" 
+               style="-fx-font-size: 18px; -fx-font-family: 'QuicksandBold'; -fx-text-fill: white;"/>
+        <TextField fx:id="temaField" promptText="ex: história, ciência, esportes" 
+                  style="-fx-font-size: 16px; -fx-background-radius: 15; -fx-padding: 12; -fx-pref-width: 350;"/>
+    </VBox>
+
+    <Button text="Iniciar Super Quiz" onAction="#iniciarQuiz"
+            style="-fx-background-color: #d7263d; -fx-text-fill: white; -fx-font-size: 20px; 
+                   -fx-font-family: 'QuicksandBold'; -fx-background-radius: 18; -fx-padding: 14 35; 
+                   -fx-effect: dropshadow(gaussian, #d7263d, 8, 0.3, 0, 2);">
+        <VBox.margin>
+            <Insets top="20"/>
+        </VBox.margin>
+    </Button>
+
+    <Label fx:id="mensagemLabel" style="-fx-text-fill: #ffbaba; -fx-font-size: 16px; -fx-font-family: 'QuicksandBold';"/>
 </VBox>
