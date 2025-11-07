@@ -4,6 +4,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,124 +13,102 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RankingService {
-    private Firestore db;
-    private static RankingService instance;
 
-    // Construtor privado para padrão Singleton
+    private static volatile RankingService instance;
+    private Firestore db;
+
     private RankingService() throws IOException {
         inicializarFirebase();
     }
 
-    // Singleton: retorna a mesma instância
     public static RankingService getInstance() throws IOException {
         if (instance == null) {
-            instance = new RankingService();
+            synchronized (RankingService.class) {
+                if (instance == null) {
+                    instance = new RankingService();
+                }
+            }
         }
         return instance;
     }
 
-    // Inicializa a conexão com Firebase
+    /**
+     * Inicializa o Firebase apenas uma vez
+     */
     private void inicializarFirebase() throws IOException {
-        // Verificar se o Firebase já foi inicializado
-        if (FirebaseApp.getApps().isEmpty()) {
-            // Carregar as credenciais do arquivo JSON
-            InputStream serviceAccount = getClass().getClassLoader()
-                    .getResourceAsStream("superquiz-b1a51-firebase-adminsdk-fbsvc-610ddb1c33.json");
 
-            if (serviceAccount == null) {
-                throw new IOException("Arquivo de credenciais não encontrado!");
+        synchronized (RankingService.class) {
+
+            if (FirebaseApp.getApps().isEmpty()) {
+
+                InputStream serviceAccount = getClass().getClassLoader()
+                        .getResourceAsStream("superquiz-b1a51-firebase-adminsdk-fbsvc-610ddb1c33.json");
+
+                if (serviceAccount == null)
+                    throw new IOException("Arquivo de credenciais não encontrado!");
+
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setProjectId("superquiz-b1a51")
+                        .build();
+
+                FirebaseApp.initializeApp(options);
+                System.out.println("✅ Firebase inicializado com sucesso!");
+
+            } else {
+                System.out.println("⚠️ Firebase já estava inicializado — ignorado.");
             }
-
-            // Criar credenciais a partir do arquivo JSON
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-            // Configurar opções do Firebase
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
-                    .setProjectId("superquiz-b1a51")
-                    .build();
-
-            // Inicializar Firebase
-            FirebaseApp.initializeApp(options);
         }
 
-        // Obter instância do Firestore
         db = FirestoreClient.getFirestore();
     }
 
-    // Salvar um novo ranking no Firestore
+    /**
+     * SALVAR RANKING
+     */
     public void salvarRanking(String nome, String tema, int pontuacao)
             throws ExecutionException, InterruptedException {
-        RankingData ranking = new RankingData(nome, tema, pontuacao);
 
-        // Salvar na coleção "Rank" com ID automático
+        RankingData ranking = new RankingData(nome, tema, pontuacao);
         db.collection("Rank").document().set(ranking).get();
 
-        System.out.println("✓ Ranking salvo com sucesso! Nome: " + nome + ", Tema: " + tema + ", Pontuação: " + pontuacao);
+        System.out.println("✅ Ranking salvo: " + nome + " | " + tema + " | " + pontuacao);
     }
 
-    // Buscar rankings por tema
-    public List<RankingData> getRanking(String tema) throws ExecutionException, InterruptedException {
+    public List<RankingData> getRanking(String tema)
+            throws ExecutionException, InterruptedException {
+
+        var query = db.collection("Rank")
+                .whereEqualTo("tema", tema)
+                .get()
+                .get();
+
         List<RankingData> rankings = new ArrayList<>();
 
-        // Buscar documentos da coleção "Rank" filtrados por tema
-        var query = db.collection("Rank").whereEqualTo("tema", tema).get().get();
-
-        for (QueryDocumentSnapshot document : query.getDocuments()) {
-            RankingData ranking = document.toObject(RankingData.class);
-            rankings.add(ranking);
+        for (QueryDocumentSnapshot doc : query.getDocuments()) {
+            rankings.add(doc.toObject(RankingData.class));
         }
 
-        // Ordenar por pontuação (decrescente - maior pontuação primeiro)
-        rankings.sort((a, b) -> Integer.compare(b.getPontuacao(), a.getPontuacao()));
-
+        rankings.sort(Comparator.comparingInt(RankingData::getPontuacao).reversed());
         return rankings;
     }
 
-    // Buscar todos os rankings e exibir em tabela
-    public void exibirTabelaRanking() throws ExecutionException, InterruptedException {
+    public List<RankingData> getAllRankings()
+            throws ExecutionException, InterruptedException {
+
+        var query = db.collection("Rank")
+                .get()
+                .get();
+
         List<RankingData> rankings = new ArrayList<>();
 
-        // Buscar todos os documentos da coleção "Rank"
-        var query = db.collection("Rank").get().get();
-
-        for (QueryDocumentSnapshot document : query.getDocuments()) {
-            RankingData ranking = document.toObject(RankingData.class);
-            rankings.add(ranking);
+        for (QueryDocumentSnapshot doc : query.getDocuments()) {
+            rankings.add(doc.toObject(RankingData.class));
         }
 
-        // Ordenar por pontuação (decrescente - maior pontuação primeiro)
         rankings.sort(Comparator.comparingInt(RankingData::getPontuacao).reversed());
 
-        // Exibir a tabela formatada
-        if (rankings.isEmpty()) {
-            System.out.println("\n╔════════════════════════════════════════════════════════════╗");
-            System.out.println("║           Nenhum ranking disponível no momento            ║");
-            System.out.println("╚════════════════════════════════════════════════════════════╝\n");
-            return;
-        }
-
-        // Cabeçalho da tabela
-        System.out.println("\n╔════╦════════════════╦═════════════════╦════════════╗");
-        System.out.println("║ #  ║      Nome      ║      Tema       ║  Pontos    ║");
-        System.out.println("╠════╬════════════════╬═════════════════╬════════════╣");
-
-        // Exibir cada ranking
-        int posicao = 1;
-        for (RankingData ranking : rankings) {
-            String nome = ranking.getNome();
-            String tema = ranking.getTema();
-            int pontos = ranking.getPontuacao();
-
-            // Truncar valores se forem muito longos
-            if (nome.length() > 14) nome = nome.substring(0, 11) + "...";
-            if (tema.length() > 15) tema = tema.substring(0, 12) + "...";
-
-            System.out.printf("║ %2d ║ %-14s ║ %-15s ║ %10d ║%n", posicao, nome, tema, pontos);
-            posicao++;
-        }
-
-        // Rodapé da tabela
-        System.out.println("╚════╩════════════════╩═════════════════╩════════════╝\n");
+        System.out.println("✅ Ranking geral carregado: " + rankings.size() + " registros");
+        return rankings;
     }
 }

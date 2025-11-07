@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -16,33 +17,32 @@ public class ErroController {
     private String nomeUsuario;
     private String tema;
 
-    /**
-     * Método para inicializar a tela de erro com os dados do jogo
-     */
     public void inicializarErro(int pontuacao, String nome, String temaQuiz) {
-        this.pontuacaoFinal = pontuacao;
-        this.nomeUsuario = nome;
-        this.tema = temaQuiz;
+    this.pontuacaoFinal = pontuacao;
+    this.nomeUsuario = nome;
+    this.tema = temaQuiz;
 
-        // Atualizar label de pontuação
-        pontuacaoFinalLabel.setText(pontuacao + " pontos");
-        // Não há mais mensagemErroLabel, então não tente acessá-lo!
+    pontuacaoFinalLabel.setText(pontuacao + " pontos");
+
+    try {
+        RankingService.getInstance().salvarRanking(nomeUsuario, tema, pontuacaoFinal);
+        System.out.println("✅ Ranking SALVO ao finalizar o quiz!");
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("❌ Falha ao salvar ranking ao finalizar o quiz.");
     }
+}
 
-    /**
-     * Botão "Jogar Novamente" - Volta para o quiz com o mesmo tema
-     */
+
     @FXML
     private void jogarNovamente() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/quiz.fxml"));
             Parent root = loader.load();
 
-            // Inicializar novo quiz com os mesmos dados
             Controller quizController = loader.getController();
             quizController.iniciarQuiz(nomeUsuario, tema);
 
-            // Aplicar CSS
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
@@ -50,15 +50,12 @@ public class ErroController {
             stage.setScene(scene);
             stage.setTitle("Quiz - " + nomeUsuario + " (" + tema + ")");
             stage.setFullScreen(true);
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Erro ao reiniciar o quiz: " + e.getMessage());
         }
     }
 
-    /**
-     * Botão "Menu Principal" - Volta para a tela de login
-     */
     @FXML
     private void voltarMenu() {
         try {
@@ -72,9 +69,9 @@ public class ErroController {
             stage.setScene(scene);
             stage.setTitle("Bem-vindo ao Quiz");
             stage.setFullScreen(true);
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Erro ao voltar ao menu: " + e.getMessage());
         }
     }
 
@@ -84,53 +81,46 @@ public class ErroController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ranking.fxml"));
             Parent root = loader.load();
 
-            // Obter controller e filtrar por tema
-            RankingController controller = loader.getController();
-            controller.setTema(tema); // ← Adicione esta linha
+            // ✅ Ranking geral — não usa mais setTema()
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
             Stage stage = (Stage) pontuacaoFinalLabel.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Ranking - " + tema);
+            stage.setTitle("Ranking Geral");
             stage.setFullScreen(true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void buttonHoverIn(MouseEvent event) {
-        if (event.getSource() instanceof Button) {
-            Button button = (Button) event.getSource();
+    public void buttonHoverIn(MouseEvent e) {
+        if (e.getSource() instanceof Button button) {
             String style = button.getStyle();
 
-            if (style.contains("#667eea")) { // Botão azul (Jogar Novamente)
+            if (style.contains("#667eea")) {
                 button.setStyle(style.replace("#667eea", "#7795f8"));
-            } else if (style.contains("#f7fafc")) { // Botão branco (Menu Principal)
-                button.setStyle(style.replace("#f7fafc", "#ffffff")
-                        .replace("dropshadow(gaussian, #667eea, 14, 0.4, 0, 5)",
-                                "dropshadow(gaussian, #667eea, 18, 0.5, 0, 8)"));
-            } else if (style.contains("#ffd93d")) { // Botão amarelo (Ver Ranking)
+            } else if (style.contains("#f7fafc")) {
+                button.setStyle(style.replace("#f7fafc", "#ffffff"));
+            } else if (style.contains("#ffd93d")) {
                 button.setStyle(style.replace("#ffd93d", "#ffeb3b"));
             }
         }
     }
 
     @FXML
-    public void buttonHoverOut(MouseEvent event) {
-        if (event.getSource() instanceof Button) {
-            Button button = (Button) event.getSource();
+    public void buttonHoverOut(MouseEvent e) {
+        if (e.getSource() instanceof Button button) {
             String style = button.getStyle();
 
-            if (style.contains("#7795f8")) { // Botão azul (Jogar Novamente)
+            if (style.contains("#7795f8")) {
                 button.setStyle(style.replace("#7795f8", "#667eea"));
-            } else if (style.contains("#ffffff")) { // Botão branco (Menu Principal)
-                button.setStyle(style.replace("#ffffff", "#f7fafc")
-                        .replace("dropshadow(gaussian, #667eea, 18, 0.5, 0, 8)",
-                                "dropshadow(gaussian, #667eea, 14, 0.4, 0, 5)"));
-            } else if (style.contains("#ffeb3b")) { // Botão amarelo (Ver Ranking)
+            } else if (style.contains("#ffffff")) {
+                button.setStyle(style.replace("#ffffff", "#f7fafc"));
+            } else if (style.contains("#ffeb3b")) {
                 button.setStyle(style.replace("#ffeb3b", "#ffd93d"));
             }
         }

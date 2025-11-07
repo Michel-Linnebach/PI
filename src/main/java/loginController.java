@@ -12,6 +12,7 @@ public class loginController {
     @FXML private TextField temaField;
     @FXML private Label mensagemLabel;
 
+    // Regex ajustada: letras, espaços e acentos
     private static final String REGEX_VALIDO = "^[A-Za-zÀ-ÿ ]+$";
 
     @FXML
@@ -24,6 +25,7 @@ public class loginController {
         temaField.setStyle("");
         mensagemLabel.setText("");
 
+        // ✅ Validação do NOME
         if (nome.isEmpty()) {
             mensagemLabel.setText("Por favor, digite seu nome.");
             nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
@@ -35,26 +37,36 @@ public class loginController {
             return;
         }
         if (!nome.matches(REGEX_VALIDO)) {
-            mensagemLabel.setText("Nome inválido: apenas letras e espaços são permitidos.");
+            mensagemLabel.setText("Nome inválido: use apenas letras e espaços.");
             nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
+
+        // ✅ Validação do TEMA (correções importantes aqui)
         if (tema.isEmpty()) {
             mensagemLabel.setText("Por favor, digite o tema do quiz.");
             temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
-        if (!tema.matches(REGEX_VALIDO)) {
-            mensagemLabel.setText("Tema inválido: apenas letras e espaços são permitidos.");
+        if (tema.length() < 3) {
+            mensagemLabel.setText("O tema deve ter pelo menos 3 caracteres.");
             temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
+        if (!tema.matches(REGEX_VALIDO)) {
+            mensagemLabel.setText("Tema inválido: use apenas letras e espaços.");
+            temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
+            return;
+        }
+
+        // ✅ Palavras proibidas
         if (ForbiddenWords.containsProibida(tema)) {
             mensagemLabel.setText("Tema não permitido.");
             temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
 
+        // ✅ Se tudo OK → iniciar quiz
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/quiz.fxml"));
             Parent root = loader.load();
@@ -66,6 +78,7 @@ public class loginController {
             stage.setScene(new Scene(root));
             stage.setTitle("Quiz - " + nome + " (" + tema + ")");
             stage.setFullScreen(true);
+
         } catch (Exception e) {
             e.printStackTrace();
             mensagemLabel.setText("Erro ao iniciar o quiz.");
