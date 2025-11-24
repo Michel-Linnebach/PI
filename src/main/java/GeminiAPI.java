@@ -113,4 +113,54 @@ public class GeminiAPI {
         }
         return false;
     }
+
+    public static boolean validarTema(String tema) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        String prompt = "Responda apenas TRUE ou FALSE. O tema \"" + tema +
+                "\" é um assunto REAL, conhecido e válido para gerar perguntas?";
+
+        ObjectNode part = mapper.createObjectNode();
+        part.put("text", prompt);
+
+        ArrayNode partsArray = mapper.createArrayNode();
+        partsArray.add(part);
+
+        ObjectNode content = mapper.createObjectNode();
+        content.set("parts", partsArray);
+
+        ArrayNode contentsArray = mapper.createArrayNode();
+        contentsArray.add(content);
+
+        ObjectNode requestBodyNode = mapper.createObjectNode();
+        requestBodyNode.set("contents", contentsArray);
+
+        String requestBody = mapper.writeValueAsString(requestBodyNode);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB6pRlIaHiwh5OCLuYu8CDlinBQSwT-usU"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        JsonNode root = mapper.readTree(response.body());
+
+        JsonNode candidates = root.path("candidates");
+        if (candidates.isMissingNode() || !candidates.isArray() || candidates.isEmpty()) {
+            return false;
+        }
+
+        String contentText = candidates.get(0)
+                .path("content")
+                .path("parts")
+                .get(0)
+                .path("text")
+                .asText()
+                .trim();
+
+        return contentText.equalsIgnoreCase("true");
+    }
+
 }

@@ -12,7 +12,6 @@ public class loginController {
     @FXML private TextField temaField;
     @FXML private Label mensagemLabel;
 
-    // Regex ajustada: letras, espaços e acentos
     private static final String REGEX_VALIDO = "^[A-Za-zÀ-ÿ ]+$";
 
     @FXML
@@ -20,12 +19,12 @@ public class loginController {
         String nome = nomeField.getText().trim();
         String tema = temaField.getText().trim();
 
-        // Reset estilos
+
         nomeField.setStyle("");
         temaField.setStyle("");
         mensagemLabel.setText("");
 
-        // ✅ Validação do NOME
+
         if (nome.isEmpty()) {
             mensagemLabel.setText("Por favor, digite seu nome.");
             nomeField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
@@ -42,7 +41,7 @@ public class loginController {
             return;
         }
 
-        // ✅ Validação do TEMA (correções importantes aqui)
+
         if (tema.isEmpty()) {
             mensagemLabel.setText("Por favor, digite o tema do quiz.");
             temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
@@ -59,14 +58,28 @@ public class loginController {
             return;
         }
 
-        // ✅ Palavras proibidas
+
         if (ForbiddenWords.containsProibida(tema)) {
-            mensagemLabel.setText("Tema não permitido.");
+            mensagemLabel.setText("Esse tema não é permitido.");
             temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
             return;
         }
 
-        // ✅ Se tudo OK → iniciar quiz
+
+        try {
+            boolean temaValido = GeminiAPI.validarTema(tema);
+
+            if (!temaValido) {
+                mensagemLabel.setText("Esse tema não existe ou é muito vago. Tente outro.");
+                temaField.setStyle("-fx-border-color: #ff4d4d; -fx-border-width: 2;");
+                return;
+            }
+        } catch (Exception e) {
+            mensagemLabel.setText("Erro ao validar o tema. Tente novamente.");
+            return;
+        }
+
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/quiz.fxml"));
             Parent root = loader.load();
