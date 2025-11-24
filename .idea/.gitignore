@@ -37,3 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store*.json
 src/main/resources/superquiz-b1a51-firebase-adminsdk-fbsvc-610ddb1c33.json
+api_key.txt
+

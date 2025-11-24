@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="795666b4-a90e-4a7c-af04-4d12144fc30f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api_key.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GeminiAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GeminiAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/loginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/loginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/GeminiAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GeminiAPI.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +45,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pedro\Git\PI" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -54,6 +61,7 @@
       <workItem from="1763831237908" duration="3732000" />
       <workItem from="1763929512555" duration="59000" />
       <workItem from="1763946442965" duration="1151000" />
+      <workItem from="1764000234136" duration="3625000" />
     </task>
     <servers />
   </component>

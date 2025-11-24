@@ -1,4 +1,3 @@
-// java
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -11,22 +10,40 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 public class GeminiAPI {
+
+    // 🔑 Lê a API KEY do arquivo api_key.txt
+    private static String carregarApiKey() {
+        try {
+            return new String(
+                    java.nio.file.Files.readAllBytes(
+                            java.nio.file.Paths.get("api_key.txt")
+                    )
+            ).trim();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar API KEY: " + e.getMessage());
+            return null;
+        }
+    }
+
     public static Pergunta gerarPergunta(Set<String> perguntasFeitas, String tema, Set<String> palavrasProibidas) throws Exception {
+
+        String apiKey = carregarApiKey(); // <-- usa key carregada
         ObjectMapper mapper = new ObjectMapper();
+
         while (true) {
             try {
                 StringBuilder prompt = new StringBuilder(
                         "Gere uma pergunta sobre " + tema + " com 4 alternativas (3 erradas e 1 correta). " +
                                 "Responda apenas no formato JSON: {\"pergunta\": \"...\", \"opcoes\": [\"...\", \"...\", \"...\", \"...\"], \"resposta\": \"...\"}."
                 );
+
                 if (!perguntasFeitas.isEmpty()) {
                     prompt.append(" Não repita nenhuma destas perguntas já feitas: ");
                     for (String feita : perguntasFeitas) {
                         prompt.append("\"").append(feita).append("\", ");
                     }
                 }
-              prompt.append(".");
-
+                prompt.append(".");
 
                 ObjectNode part = mapper.createObjectNode();
                 part.put("text", prompt.toString());
@@ -47,7 +64,9 @@ public class GeminiAPI {
 
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB6pRlIaHiwh5OCLuYu8CDlinBQSwT-usU"))
+                        .uri(new URI(
+                                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey
+                        ))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                         .build();
@@ -56,16 +75,14 @@ public class GeminiAPI {
 
                 JsonNode root = mapper.readTree(response.body());
                 JsonNode candidates = root.path("candidates");
-                if (!candidates.isArray() || candidates.isEmpty()) {
-                    continue;
-                }
-                JsonNode contentNode = candidates.get(0).path("content").path("parts");
-                if (!contentNode.isArray() || contentNode.isEmpty()) {
-                    continue;
-                }
-                String contentText = contentNode.get(0).path("text").asText();
+                if (!candidates.isArray() || candidates.isEmpty()) continue;
 
-                String jsonLimpo = "";
+                JsonNode contentNode = candidates.get(0).path("content").path("parts");
+                if (!contentNode.isArray() || contentNode.isEmpty()) continue;
+
+                String contentText = contentNode.get(0).path("text").asText();
+                String jsonLimpo;
+
                 int ini = contentText.indexOf("```json");
                 int fim = contentText.indexOf("```", ini + 1);
                 if (ini != -1 && fim != -1) {
@@ -87,13 +104,12 @@ public class GeminiAPI {
                 if (containsProibida(pergunta, palavrasProibidas) ||
                         containsProibida(resposta, palavrasProibidas) ||
                         anyOptionContainsProibida(opcoes, palavrasProibidas)) {
-                    continue; // rejeita e tenta novamente
+                    continue;
                 }
 
                 return new Pergunta(pergunta, resposta, opcoes);
-            } catch (Exception e) {
-                continue;
-            }
+
+            } catch (Exception ignored) {}
         }
     }
 
@@ -115,6 +131,8 @@ public class GeminiAPI {
     }
 
     public static boolean validarTema(String tema) throws Exception {
+
+        String apiKey = carregarApiKey(); // <-- usa key carregada
         ObjectMapper mapper = new ObjectMapper();
 
         String prompt = "Responda apenas TRUE ou FALSE. O tema \"" + tema +
@@ -139,18 +157,23 @@ public class GeminiAPI {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB6pRlIaHiwh5OCLuYu8CDlinBQSwT-usU"))
+                .uri(new URI(
+                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey
+                ))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JsonNode root = mapper.readTree(response.body());
 
+        System.out.println("RESPOSTA DO GEMINI ======================");
+        System.out.println(response.body());
+        System.out.println("=========================================");
+
+        JsonNode root = mapper.readTree(response.body());
         JsonNode candidates = root.path("candidates");
-        if (candidates.isMissingNode() || !candidates.isArray() || candidates.isEmpty()) {
-            return false;
-        }
+
+        if (!candidates.isArray() || candidates.isEmpty()) return false;
 
         String contentText = candidates.get(0)
                 .path("content")
@@ -158,9 +181,9 @@ public class GeminiAPI {
                 .get(0)
                 .path("text")
                 .asText()
-                .trim();
+                .trim()
+                .toLowerCase();
 
-        return contentText.equalsIgnoreCase("true");
+        return contentText.contains("true");
     }
-
 }
